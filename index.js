@@ -1,36 +1,51 @@
 const { Client } = require('discord.js-selfbot-v13');
-const client = new Client(); 
-const express = require("express")
+const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
+const ytdl = require('ytdl-core');
+const express = require("express");
+
+const client = new Client();
 const app = express();
-var listener = app.listen(process.env.PORT || 2000, function () {
+const listener = app.listen(process.env.PORT || 2000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
-app.listen(() => console.log("I'm Ready To Work..! 24H"));
+
 app.get('/', (req, res) => {
   res.send(`
-  <body>
-  <center><h1>Bot 24H ON!</h1></center
-  </body>`)
+    <body>
+      <center><h1>Bot 24H ON!</h1></center>
+    </body>
+  `);
 });
+
 client.on('ready', async () => {
   console.log(`${client.user.username} is ready!`);
-})
-//ثبات فويس 24 ساعه v13 بدون اي مشاكل
-const { joinVoiceChannel } = require('@discordjs/voice');
-client.on('ready', () => {
-    
-    setInterval( async () => {
-    client.channels.fetch(process.env.channel) 
-     .then((channel) => { 
-      const VoiceConnection = joinVoiceChannel({
-       channelId: channel.id, 
-       guildId: process.env.guild, 
-       selfMute: false,
-       selfDeaf: false,
-       adapterCreator: channel.guild.voiceAdapterCreator 
-       });
-    }).catch((error) => { return; });
-    }, 1000)
-}); 
-//https://ra3dstudio.com CopyRight Codes
+  const channelId = process.env.channel; // Set your channel ID here
+  const guildId = process.env.guild; // Set your guild ID here
+
+  const channel = await client.channels.fetch(channelId);
+  
+  // Join voice channel
+  const connection = joinVoiceChannel({
+    channelId: channel.id,
+    guildId: guildId,
+    selfMute: false,
+    selfDeaf: false,
+    adapterCreator: channel.guild.voiceAdapterCreator
+  });
+
+  // Create audio player
+  const player = createAudioPlayer();
+  connection.subscribe(player);
+
+  // Play the YouTube video
+  const stream = ytdl('https://youtu.be/VGRQGm4-A4k', { filter: 'audioonly' });
+  const resource = createAudioResource(stream);
+
+  player.play(resource);
+
+  player.on('error', error => {
+    console.error(`Error: ${error.message}`);
+  });
+});
+
 client.login(process.env.token);
