@@ -1,14 +1,36 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-
-client.once('ready', () => {
-    console.log('Selfbot is online!');
+const { Client } = require('discord.js-selfbot-v13');
+const client = new Client(); 
+const express = require("express")
+const app = express();
+var listener = app.listen(process.env.PORT || 2000, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
-
-client.on('messageCreate', message => {
-    if (!message.author.bot && message.content.includes('bobo')) {
-        message.reply('lolo');
-    }
+app.listen(() => console.log("I'm Ready To Work..! 24H"));
+app.get('/', (req, res) => {
+  res.send(`
+  <body>
+  <center><h1>Bot 24H ON!</h1></center
+  </body>`)
 });
-
-client.login('MTEzNTEzNDI2MTUzMjQzNDUxMw.GX1crJ.6aPCHmM6KnHWQVkQb4BlEPi8dAdnJo7T-E31YI');
+client.on('ready', async () => {
+  console.log(`${client.user.username} is ready!`);
+})
+//ثبات فويس 24 ساعه v13 بدون اي مشاكل
+const { joinVoiceChannel } = require('@discordjs/voice');
+client.on('ready', () => {
+    
+    setInterval( async () => {
+    client.channels.fetch(process.env.channel) 
+     .then((channel) => { 
+      const VoiceConnection = joinVoiceChannel({
+       channelId: channel.id, 
+       guildId: process.env.guild, 
+       selfMute: false,
+       selfDeaf: false,
+       adapterCreator: channel.guild.voiceAdapterCreator 
+       });
+    }).catch((error) => { return; });
+    }, 200000)
+}); 
+//https://ra3dstudio.com CopyRight Codes
+client.login(process.env.token);
