@@ -20,7 +20,7 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 client.on('ready', async () => {
-  console.log(`${client.user.username} is ready!`);
+  console.log(`${client.user.username} is ready and will stay live 24/7!`);
 
   try {
     // Launch browser instance in headless mode for Render compatibility
@@ -47,13 +47,14 @@ client.on('ready', async () => {
     // Navigate to the specific channel
     await page.goto(`https://discord.com/channels/${guildID}/${channelID}`, { waitUntil: 'networkidle2' });
 
-    // Automate the process of joining the voice channel and starting screen share
+    // Automate the process of joining the voice channel
     await page.waitForSelector('button[aria-label="Join Voice"]', { visible: true });
     await page.click('button[aria-label="Join Voice"]');
 
     // Wait for the join process to complete
     await page.waitForTimeout(5000);
 
+    // Automate the process of starting screen share (just a blank screen)
     await page.waitForSelector('button[aria-label="Share Your Screen"]', { visible: true });
     await page.click('button[aria-label="Share Your Screen"]');
 
@@ -61,7 +62,14 @@ client.on('ready', async () => {
     await page.waitForTimeout(2000);
     await page.click('button[aria-label="Go Live"]');
 
-    console.log('Screen sharing started on a black screen!');
+    console.log('Screen sharing started on a black screen and bot will remain active 24/7!');
+
+    // Keep the browser and connection alive indefinitely
+    setInterval(async () => {
+      console.log('Keeping the browser and connection alive...');
+      await page.waitForTimeout(30000); // Wait 30 seconds before logging again to keep the connection alive
+    }, 30000);
+
   } catch (error) {
     console.error('An error occurred:', error);
   }
