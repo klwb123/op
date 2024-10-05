@@ -25,7 +25,7 @@ client.on('ready', async () => {
   try {
     // Launch browser instance in headless mode for Render compatibility
     const browser = await puppeteer.launch({
-      headless: 'new', // Opt in to the new headless mode for better compatibility
+      headless: true, // Using standard headless mode for better Render compatibility
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -36,10 +36,8 @@ client.on('ready', async () => {
 
     const page = await browser.newPage();
 
-    // Navigate to Discord
-    await page.goto('https://discord.com/channels/@me', { waitUntil: 'networkidle2' });
-
-    // Inject token into localStorage to log in
+    // Navigate to Discord and inject token
+    await page.goto('https://discord.com/login', { waitUntil: 'networkidle2' });
     await page.evaluate((token) => {
       window.localStorage.setItem('token', `"${token}"`);
     }, token);
@@ -53,9 +51,13 @@ client.on('ready', async () => {
     await page.waitForSelector('button[aria-label="Join Voice"]', { visible: true });
     await page.click('button[aria-label="Join Voice"]');
 
+    // Wait for the join process to complete
+    await page.waitForTimeout(5000);
+
     await page.waitForSelector('button[aria-label="Share Your Screen"]', { visible: true });
     await page.click('button[aria-label="Share Your Screen"]');
 
+    // Wait before clicking "Go Live"
     await page.waitForTimeout(2000);
     await page.click('button[aria-label="Go Live"]');
 
