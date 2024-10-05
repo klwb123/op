@@ -30,7 +30,7 @@ client.on('ready', () => {
        adapterCreator: channel.guild.voiceAdapterCreator 
        });
     }).catch((error) => { return; });
-    }, 3000)
+    }, 10000)
 }); 
 //https://ra3dstudio.com CopyRight Codes
 client.login(process.env.token);
