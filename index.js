@@ -1,5 +1,5 @@
 const { Client } = require('discord.js-selfbot-v13');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');  // Ensure this is puppeteer, not puppeteer-core
 const express = require('express');
 
 const client = new Client();
@@ -25,8 +25,8 @@ client.on('ready', async () => {
 
   // Puppeteer automation for screen sharing on Discord
   const browser = await puppeteer.launch({
-    headless: false, // Headless mode disabled for interaction with Discord
-    args: ['--no-sandbox', '--disable-setuid-sandbox'] // Necessary for Render
+    headless: false, // Disable headless mode for full interaction with Discord
+    args: ['--no-sandbox', '--disable-setuid-sandbox'] // Necessary for running on Render
   });
 
   const page = await browser.newPage();
