@@ -4,7 +4,9 @@ const puppeteer = require('puppeteer');
 const express = require('express');
 
 // Initialize Discord client and express app
-const client = new Client();
+const client = new Client({
+  checkUpdate: false
+});
 const app = express();
 
 // Environment variables
@@ -23,7 +25,7 @@ client.on('ready', async () => {
   try {
     // Launch browser instance in headless mode for Render compatibility
     const browser = await puppeteer.launch({
-      headless: true, // Change to true for compatibility with Render
+      headless: 'new', // Opt in to the new headless mode for better compatibility
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
