@@ -9,7 +9,7 @@ app.listen(() => console.log("I'm Ready To Work..! 24H"));
 app.get('/', (req, res) => {
   res.send(`
   <body>
-  <center><h1>Bot 24H ON!</h1></center
+  <center><h1>عليل ومالقاله حل دولي (moqtda and sadam on top fuck الطائفيه)</h1></center
   </body>`)
 });
 client.on('ready', async () => {
