@@ -1,7 +1,7 @@
 {
-  "name": "discord-screen-share-render",
+  "name": "discord-24-7-screen-share-bot",
   "version": "1.0.0",
-  "description": "Discord bot to automatically join a voice channel and start screen sharing.",
+  "description": "A Discord selfbot that stays in a voice channel 24/7 and shares its screen continuously.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -10,8 +10,8 @@
     "node": ">=14.x"
   },
   "dependencies": {
-    "discord.js-selfbot-v13": "^2.13.0",
+    "discord.js-selfbot-v13": "^3.4.0",
     "express": "^4.18.2",
-    "puppeteer": "^19.0.0"
+    "puppeteer": "^19.11.1"
   }
 }
