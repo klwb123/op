@@ -25,7 +25,7 @@ client.on('ready', () => {
       const VoiceConnection = joinVoiceChannel({
        channelId: channel.id, 
        guildId: process.env.guild, 
-       selfMute: false,
+       selfMute: true,
        selfDeaf: false,
        adapterCreator: channel.guild.voiceAdapterCreator 
        });
