@@ -1,5 +1,5 @@
 const { Client } = require('discord.js-selfbot-v13');
-const puppeteer = require('puppeteer');  // Ensure this is puppeteer, not puppeteer-core
+const puppeteer = require('puppeteer');
 const express = require('express');
 
 const client = new Client();
